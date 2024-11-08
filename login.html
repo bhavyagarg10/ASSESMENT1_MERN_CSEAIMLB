@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
-    <link rel="stylesheet" href="assesment.css">
+    <title>Currency Converter Login</title>
+    <link rel="stylesheet" href="login.css">
 </head>
-
 <body>
     <div class="log">
         <center>
             <h1><u>Login</u></h1>
             <hr>
-            <form action="">
+            <form onsubmit="return validateLogin()">
                 <span>User ID:</span> <input type="text" id="user" placeholder="Enter Your User ID">
                 <br><br>
                 <span>Password:</span> <input type="password" id="password" placeholder="Enter Your Password">
                 <br><br>
-                <button type="submit"><a href="welcome.html">Submit</a></button>
+                <button type="submit">Submit</button>
                 <button type="reset">Reset</button>
             </form>
         </center>
     </div>
-</body>
 
+    <script>
+        function validateLogin() {
+            const requiredUserId = "admin";
+            const requiredPassword = "12345";
+            const enteredUserId = document.getElementById('user').value;
+            const enteredPassword = document.getElementById('password').value;
+
+            if (enteredUserId === requiredUserId && enteredPassword === requiredPassword) {
+                window.location.href = "converter.html";
+                return false;
+            } else {
+                alert("Invalid User ID or Password. Please try again.");
+                return false;
+            }
+        }
+    </script>
+</body>
 </html>

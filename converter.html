@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="converter.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Currency Converter</h1>
+        <form>
+            <div class="currency-row">
+                <input type="text" id="baseCurrency" placeholder="From Currency (e.g., USD)">
+                <input type="text" id="targetCurrency" placeholder="To Currency (e.g., EUR)">
+            </div>
+            <input type="text" id="amountToConvert" placeholder="Amount">
+            <button type="button">Convert</button>
+            <input type="text" id="convertedResult" placeholder="Converted Amount" readonly>
+        </form>
+    </div>
+
+    <script>
+        const convertBtn = document.querySelector('button');
+        convertBtn.addEventListener('click', function() {
+            const baseCurrencyCode = document.querySelector('#baseCurrency').value.toUpperCase();
+            const targetCurrencyCode = document.querySelector('#targetCurrency').value.toUpperCase();
+            const apiUrl = `https://api.exchangerate-api.com/v4/latest/${baseCurrencyCode}`;
+
+            fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const exchangeRate = data.rates[targetCurrencyCode];
+                const inputAmount = parseFloat(document.querySelector('#amountToConvert').value);
+                const calculatedResult = inputAmount * exchangeRate;
+                const resultField = document.querySelector('#convertedResult');
+                
+                resultField.value = calculatedResult ? calculatedResult.toFixed(2) : "Invalid Currency";
+            })
+            .catch(error => {
+                console.error("Exchange rate fetch error:", error);
+                document.querySelector('#convertedResult').value = "Error";
+            });
+        });
+    </script>
+</body>
+</html>
